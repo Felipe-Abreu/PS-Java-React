@@ -28,3 +28,12 @@ INSERT INTO transferencia (id,data_transferencia, valor, tipo, nome_operador_tra
 INSERT INTO transferencia (id,data_transferencia, valor, tipo, nome_operador_transacao, conta_id) VALUES (4,'2019-08-07 08:12:45+03',-530.50,'SAQUE', null,2);
 INSERT INTO transferencia (id,data_transferencia, valor, tipo, nome_operador_transacao, conta_id) VALUES (5,'2020-06-08 10:15:01+03',3241.23,'TRANSFERENCIA', 'Beltrano',1);
 INSERT INTO transferencia (id,data_transferencia, valor, tipo, nome_operador_transacao, conta_id) VALUES (6,'2021-04-01 12:12:04+03',25173.09,'TRANSFERENCIA', 'Ronnyscley',2);
+
+ALTER TABLE conta
+ADD saldo numeric (20,2);
+
+UPDATE conta SET saldo = (
+    SELECT COALESCE(SUM(CASE WHEN tipo = 'DEPOSITO' OR tipo = 'TRANSFERENCIA' THEN valor ELSE -valor END), 0)
+    FROM transferencia
+    WHERE transferencia.conta_id = conta.id_conta
+);

@@ -1,11 +1,14 @@
 package br.com.banco.Service;
 
+import br.com.banco.Model.Conta;
 import br.com.banco.Model.Transferencia;
 import br.com.banco.Repository.TransferenciaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,4 +32,15 @@ public class TransferenciaService {
             throw new IllegalArgumentException("Filtros inválidos");
         }
     }
+
+    public void novaTransferencia(Conta conta, BigDecimal valor, String tipo) {
+
+        Transferencia nova = new Transferencia();
+        nova.setDataTransferencia(LocalDate.now());
+        nova.setTipo(tipo);
+        nova.setValor(valor);
+        nova.setContaId(conta);
+        transferenciaRepository.save(nova);
+    }
+
 }
