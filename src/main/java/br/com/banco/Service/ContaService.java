@@ -1,5 +1,6 @@
 package br.com.banco.Service;
 
+import br.com.banco.Enum.TipoTransação;
 import br.com.banco.Model.Conta;
 import br.com.banco.Repository.ContaRepository;
 import br.com.banco.Repository.TransferenciaRepository;
@@ -29,8 +30,7 @@ public class ContaService {
         saldo = saldo.subtract(valor);
         conta.setSaldo(saldo);
 
-        String tipo = "SAQUE";
-        transferenciaService.novaTransferencia(conta, valor.negate(), tipo);
+        transferenciaService.novaTransferencia(conta, valor.negate(), TipoTransação.SAQUE);
 
         contaRepository.save(conta);
         return ResponseEntity.ok(conta);
@@ -42,8 +42,7 @@ public class ContaService {
         saldo = saldo.add(valor);
         conta.setSaldo(saldo);
 
-        String tipo = "DEPOSITO";
-        transferenciaService.novaTransferencia(conta, valor, tipo);
+        transferenciaService.novaTransferencia(conta, valor, TipoTransação.DEPOSITO);
 
         contaRepository.save(conta);
         return ResponseEntity.ok(conta);

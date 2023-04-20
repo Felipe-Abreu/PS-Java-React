@@ -1,5 +1,6 @@
 package br.com.banco.Model;
 
+import br.com.banco.Enum.TipoTransação;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -25,7 +26,7 @@ public class Transferencia {
     private BigDecimal valor;
     @NotNull
     @Column(name = "tipo")
-    private String tipo;
+    private TipoTransação tipo;
     @Column(name = "nome_operador_transacao")
     private  String nomeOperador;
 
